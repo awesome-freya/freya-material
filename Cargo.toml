@@ -1,0 +1,9 @@
+[package]
+name = "freya-material"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+freya = { git = "https://github.com/marc2332/freya.git", version = "0.2.2" }
+freya-transition = { version = "0.1.0", path = "../freya-transition" }
+material-colors = "0.4.2"
