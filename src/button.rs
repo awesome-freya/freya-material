@@ -1,4 +1,4 @@
-use crate::ripple::Ripple;
+use crate::prelude::*;
 use freya::prelude::*;
 use material_colors::color::Argb;
 
@@ -87,7 +87,7 @@ pub fn Button(props: ButtonProps) -> Element {
     //     }
     // }));
 
-    let theme = crate::use_theme();
+    let theme = use_material_theme();
     let theme = theme.read();
 
     let (background, color, border) = match kind {
@@ -107,8 +107,8 @@ pub fn Button(props: ButtonProps) -> Element {
             height: "40",
             corner_radius: "20",
             main_align: "center",
-            background: "rgb({background})",
-            border: "1 solid rgb({border})",
+            background: "{background.as_rgba()}",
+            border: "1 solid {border.as_rgba()}",
             padding: "0 24 0 24",
             overflow: "clip",
 

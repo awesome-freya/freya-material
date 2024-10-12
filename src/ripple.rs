@@ -244,11 +244,13 @@ pub fn Ripple(props: RippleProps) -> Element {
         }
     });
 
-    use_effect(move || if *state.read() == RippleState::Holding {
-        opacity_animation.set_duration("opacity", 375);
-        opacity_animation.play([("opacity", 0.12)]);
+    use_effect(move || {
+        if *state.read() == RippleState::Holding {
+            opacity_animation.set_duration("opacity", 375);
+            opacity_animation.play([("opacity", 0.12)]);
 
-        animation.start();
+            animation.start();
+        }
     });
 
     let (radius, x, y) = animation.get();

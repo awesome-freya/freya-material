@@ -1,4 +1,4 @@
-use crate::ripple::Ripple;
+use crate::prelude::*;
 use freya::prelude::*;
 use material_colors::color::Argb;
 use material_icons::IconStyle;
@@ -70,7 +70,7 @@ pub fn IconButton(props: IconButtonProps) -> Element {
         state.set(ButtonState::Idle);
     };
 
-    let theme = crate::use_theme();
+    let theme = use_material_theme();
     let theme = theme.read();
 
     let (background, color, border) = match (kind, selected) {
@@ -113,8 +113,8 @@ pub fn IconButton(props: IconButtonProps) -> Element {
             height: "40",
             width: "40",
             corner_radius: "20",
-            background: "rgb({background})",
-            border: "1 solid rgb({border})",
+            background: "{background.as_rgba()}",
+            border: "1 solid {border.as_rgba()}",
             padding: "8",
             overflow: "clip",
 

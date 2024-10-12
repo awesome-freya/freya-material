@@ -1,4 +1,4 @@
-use crate::ripple::Ripple;
+use crate::prelude::*;
 use freya::prelude::*;
 
 #[derive(Default, PartialEq)]
@@ -40,7 +40,7 @@ pub fn Switch(props: SwitchProps) -> Element {
         )
     });
 
-    let theme = crate::use_theme();
+    let theme = use_material_theme();
     let theme = theme.read();
 
     let (offset_x, (background, border, circle)) = (

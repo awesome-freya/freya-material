@@ -1,10 +1,10 @@
-use crate::ripple::Ripple;
+use crate::prelude::*;
 use freya::prelude::*;
 use std::fmt;
 
 #[component]
 fn NavigationRailItem() -> Element {
-    let theme = crate::use_theme();
+    let theme = use_material_theme();
     let theme = theme.read();
 
     rsx! {
@@ -80,7 +80,7 @@ pub struct NavigationRailProps {
 pub fn NavigationRail(props: NavigationRailProps) -> Element {
     let align = props.items_align.unwrap_or_default();
 
-    let theme = crate::use_theme();
+    let theme = use_material_theme();
     let theme = theme.read();
 
     rsx! {

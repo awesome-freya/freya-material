@@ -1,3 +1,4 @@
+use crate::prelude::*;
 use freya::prelude::*;
 use freya_transition::{curves::Curve, use_transition};
 
@@ -39,7 +40,7 @@ pub fn SideSheet(props: SideSheetProps) -> Element {
 
     let width = transition.get::<f32>("width");
 
-    let theme = crate::use_theme();
+    let theme = use_material_theme();
     let theme = theme.read();
 
     match kind {

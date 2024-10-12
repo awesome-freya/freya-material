@@ -7,21 +7,38 @@ pub mod search;
 pub mod side_sheet;
 pub mod switch;
 
-pub use self::{
-    button::{Button, ButtonKind},
-    fab::FAB,
-    icon_button::{IconButton, IconButtonKind},
-    rail::{NavigationRail, RailItemAlignment},
-    ripple::Ripple,
-    search::Search,
-    side_sheet::{SideSheet, SideSheetKind},
-    switch::Switch,
-};
+pub mod prelude {
+    pub use crate::{
+        button::{Button, ButtonKind},
+        fab::FAB,
+        icon_button::{IconButton, IconButtonKind},
+        rail::{NavigationRail, RailItemAlignment},
+        ripple::Ripple,
+        search::Search,
+        set_material_theme,
+        side_sheet::{SideSheet, SideSheetKind},
+        switch::Switch,
+        use_material_theme, ArgbExt,
+    };
+}
 
 use freya::prelude::{try_use_context, use_context_provider, Signal, Writable};
 use material_colors::{color::Argb, scheme::Scheme, theme::ThemeBuilder};
 
-pub fn use_theme() -> Signal<Scheme> {
+pub trait ArgbExt {
+    fn as_rgba(&self) -> String;
+}
+
+impl ArgbExt for Argb {
+    fn as_rgba(&self) -> String {
+        format!(
+            "rgb({}, {}, {}, {})",
+            self.red, self.blue, self.green, self.alpha
+        )
+    }
+}
+
+pub fn use_material_theme() -> Signal<Scheme> {
     match try_use_context::<Signal<Scheme>>() {
         Some(value) => value,
         None => use_context_provider(|| {
@@ -35,6 +52,6 @@ pub fn use_theme() -> Signal<Scheme> {
     }
 }
 
-pub fn set_theme(scheme: Scheme) {
-    *use_theme().write() = scheme;
+pub fn set_material_theme(scheme: Scheme) {
+    *use_material_theme().write() = scheme;
 }

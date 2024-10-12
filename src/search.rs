@@ -1,4 +1,4 @@
-use crate::icon_button::IconButton;
+use crate::prelude::*;
 use freya::prelude::*;
 use freya_transition::{use_transition, Curve};
 
@@ -111,7 +111,7 @@ pub fn Search(
         "none".into()
     };
 
-    let theme = crate::use_theme();
+    let theme = use_material_theme();
     let theme = theme.read();
 
     let color = if display_placeholder {
@@ -296,7 +296,7 @@ pub fn Search(
 
                         "btw maybe you searching for someone?"
                     }
-                    
+
                     rect {
                         direction: "horizontal",
                         spacing: "8",
@@ -309,7 +309,7 @@ pub fn Search(
                             cross_align: "center",
                             background: "{theme.surface_container_highest}",
                             color: "{theme.on_surface}",
-    
+
                             label { "AM" }
                         }
 
@@ -321,7 +321,7 @@ pub fn Search(
                             cross_align: "center",
                             background: "{theme.surface_container_highest}",
                             color: "{theme.on_surface}",
-    
+
                             label { "AM" }
                         }
 
@@ -333,7 +333,7 @@ pub fn Search(
                             cross_align: "center",
                             background: "{theme.surface_container_highest}",
                             color: "{theme.on_surface}",
-    
+
                             label { "AM" }
                         }
 
@@ -345,7 +345,7 @@ pub fn Search(
                             cross_align: "center",
                             background: "{theme.surface_container_highest}",
                             color: "{theme.on_surface}",
-    
+
                             label { "AM" }
                         }
 
@@ -357,7 +357,7 @@ pub fn Search(
                             cross_align: "center",
                             background: "{theme.surface_container_highest}",
                             color: "{theme.on_surface}",
-    
+
                             label { "AM" }
                         }
                     }

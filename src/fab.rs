@@ -1,7 +1,7 @@
-use crate::ripple::Ripple;
+use crate::prelude::*;
 use freya::prelude::*;
-use material_icons::IconStyle;
 use freya_transition::{use_transition, Curve};
+use material_icons::IconStyle;
 
 #[derive(Default, PartialEq, Eq)]
 enum FabState {
@@ -76,7 +76,7 @@ pub fn FAB(props: FabProps) -> Element {
         false,
     ));
 
-    let theme = crate::use_theme();
+    let theme = use_material_theme();
     let theme = theme.read();
 
     rsx! {
@@ -128,6 +128,7 @@ pub fn FAB(props: FabProps) -> Element {
                     font_size: "14",
                     text_overflow: "clip",
                     color: "{theme.on_primary_container}",
+
                     {props.label.as_str()}
                 }
             }
