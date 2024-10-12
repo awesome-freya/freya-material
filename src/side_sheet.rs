@@ -1,7 +1,5 @@
 use freya::prelude::*;
-
-use shared::THEME;
-use transition::{curves::Curve, use_transition};
+use freya_transition::{curves::Curve, use_transition};
 
 #[derive(Default, PartialEq, Eq, Clone)]
 pub enum SideSheetKind {
@@ -41,6 +39,9 @@ pub fn SideSheet(props: SideSheetProps) -> Element {
 
     let width = transition.get::<f32>("width");
 
+    let theme = crate::use_theme();
+    let theme = theme.read();
+
     match kind {
         SideSheetKind::Docked => {
             rsx! {
@@ -60,13 +61,13 @@ pub fn SideSheet(props: SideSheetProps) -> Element {
                     rect {
                         height: "100%",
                         width: "1",
-                        background: "{THEME.outline}",
+                        background: "{theme.outline}",
                     }
 
                     rect {
                         height: "100%",
                         width: "100%",
-                        background: "{THEME.surface}",
+                        background: "{theme.surface}",
                         padding: "24",
                     }
                 }
@@ -89,7 +90,7 @@ pub fn SideSheet(props: SideSheetProps) -> Element {
                     width: "{width}",
                     direction: "horizontal",
                     corner_radius: "16",
-                    background: "{THEME.surface_container_low}",
+                    background: "{theme.surface_container_low}",
                     padding: "24",
                     margin: "16 16 16 16"
                 }
@@ -114,7 +115,7 @@ pub fn SideSheet(props: SideSheetProps) -> Element {
                         width: "{width}",
                         direction: "horizontal",
                         corner_radius: "16",
-                        background: "{THEME.surface}",
+                        background: "{theme.surface}",
                         padding: "24",
                         margin: "16"
                     }

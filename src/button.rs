@@ -1,8 +1,6 @@
+use crate::ripple::Ripple;
 use freya::prelude::*;
 use material_colors::color::Argb;
-
-use crate::ripple::Ripple;
-use shared::{ColorConversion, THEME};
 
 const TRANSPARENT: Argb = Argb::new(0, 0, 0, 0);
 
@@ -89,32 +87,19 @@ pub fn Button(props: ButtonProps) -> Element {
     //     }
     // }));
 
+    let theme = crate::use_theme();
+    let theme = theme.read();
+
     let (background, color, border) = match kind {
-        ButtonKind::Elevated => (
-            THEME.surface_container_low.to_rgb(),
-            THEME.primary,
-            TRANSPARENT.to_rgba(),
-        ),
-        ButtonKind::Filled => (
-            THEME.primary.to_rgb(),
-            THEME.on_primary,
-            TRANSPARENT.to_rgba(),
-        ),
+        ButtonKind::Elevated => (theme.surface_container_low, theme.primary, TRANSPARENT),
+        ButtonKind::Filled => (theme.primary, theme.on_primary, TRANSPARENT),
         ButtonKind::Tonal => (
-            THEME.primary_container.to_rgb(),
-            THEME.on_primary_container,
-            TRANSPARENT.to_rgba(),
+            theme.primary_container,
+            theme.on_primary_container,
+            TRANSPARENT,
         ),
-        ButtonKind::Outlined => (
-            TRANSPARENT.to_rgba(),
-            THEME.primary,
-            THEME.outline.to_rgb(),
-        ),
-        ButtonKind::Text => (
-            TRANSPARENT.to_rgba(),
-            THEME.primary,
-            TRANSPARENT.to_rgba(),
-        ),
+        ButtonKind::Outlined => (TRANSPARENT, theme.primary, theme.outline),
+        ButtonKind::Text => (TRANSPARENT, theme.primary, TRANSPARENT),
     };
 
     rsx! {
@@ -149,7 +134,7 @@ pub fn Button(props: ButtonProps) -> Element {
 
 
             label {
-                color: "rgb({color.to_rgb()})",
+                color: "{color}",
                 font_size: "14",
 
                 {&props.children}

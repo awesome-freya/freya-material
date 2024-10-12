@@ -1,11 +1,12 @@
-use freya::prelude::*;
-
 use crate::ripple::Ripple;
-use shared::THEME;
-use shared::{ColorConversion, Direction, WithSpacing};
+use freya::prelude::*;
+use std::fmt;
 
 #[component]
 fn NavigationRailItem() -> Element {
+    let theme = crate::use_theme();
+    let theme = theme.read();
+
     rsx! {
         rect {
             height: "56",
@@ -19,7 +20,7 @@ fn NavigationRailItem() -> Element {
                 margin: "0 12 0 12",
                 main_align: "center",
                 cross_align: "center",
-                background: "{THEME.secondary_container}",
+                background: "{theme.secondary_container}",
                 overflow: "clip",
 
                 rect {
@@ -28,14 +29,14 @@ fn NavigationRailItem() -> Element {
                     width: "56",
 
                     Ripple {
-                        color: THEME.on_secondary_container,
+                        color: theme.on_secondary_container,
                         height: "32",
                         width: "56",
                     }
                 }
 
                 label {
-                    color: "{THEME.on_secondary_container}",
+                    color: "{theme.on_secondary_container}",
                     font_size: "24",
 
                     "RE"
@@ -44,7 +45,7 @@ fn NavigationRailItem() -> Element {
 
             label {
                 margin: "4 0 0 0",
-                color: "{THEME.on_surface}",
+                color: "{theme.on_surface}",
 
                 "Label"
             }
@@ -60,6 +61,16 @@ pub enum RailItemAlignment {
     Bottom,
 }
 
+impl fmt::Display for RailItemAlignment {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            RailItemAlignment::Top => f.write_str("start"),
+            RailItemAlignment::Center => f.write_str("center"),
+            RailItemAlignment::Bottom => f.write_str("end"),
+        }
+    }
+}
+
 #[derive(Props, PartialEq, Clone)]
 pub struct NavigationRailProps {
     items_align: Option<RailItemAlignment>,
@@ -68,30 +79,24 @@ pub struct NavigationRailProps {
 #[component]
 pub fn NavigationRail(props: NavigationRailProps) -> Element {
     let align = props.items_align.unwrap_or_default();
-    let align = match align {
-        RailItemAlignment::Top => "start",
-        RailItemAlignment::Center => "center",
-        RailItemAlignment::Bottom => "end",
-    };
+
+    let theme = crate::use_theme();
+    let theme = theme.read();
 
     rsx! {
         rect {
             height: "100%",
             width: "80",
-            background: "{THEME.surface_container_highest}",
-            main_align: align,
+            background: "{theme.surface_container_highest}",
+            main_align: "{align}",
             padding: "24 0 24 0",
             cross_align: "center",
+            spacing: "12",
+            direction: "vertical",
 
-            WithSpacing {
-                spacing: 12,
-                direction: Direction::Vertical,
-                elements: [
-                    rsx!(NavigationRailItem {}),
-                    rsx!(NavigationRailItem {}),
-                    rsx!(NavigationRailItem {}),
-                ]
-            }
+            NavigationRailItem {}
+            NavigationRailItem {}
+            NavigationRailItem {}
         }
     }
 }

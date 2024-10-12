@@ -1,7 +1,5 @@
-use freya::prelude::*;
-
 use crate::ripple::Ripple;
-use shared::THEME;
+use freya::prelude::*;
 
 #[derive(Default, PartialEq)]
 enum SwitchState {
@@ -42,15 +40,18 @@ pub fn Switch(props: SwitchProps) -> Element {
         )
     });
 
+    let theme = crate::use_theme();
+    let theme = theme.read();
+
     let (offset_x, (background, border, circle)) = (
         animation.get().read().as_f32(),
         if props.enabled {
-            (THEME.primary, THEME.primary, THEME.on_primary)
+            (theme.primary, theme.primary, theme.on_primary)
         } else {
             (
-                THEME.surface_container_highest,
-                THEME.outline,
-                THEME.outline,
+                theme.surface_container_highest,
+                theme.outline,
+                theme.outline,
             )
         },
     );

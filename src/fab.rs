@@ -1,7 +1,7 @@
-use crate::{icons, ripple::Ripple};
+use crate::ripple::Ripple;
 use freya::prelude::*;
-use shared::THEME;
-use transition::{use_transition, Curve};
+use material_icons::IconStyle;
+use freya_transition::{use_transition, Curve};
 
 #[derive(Default, PartialEq, Eq)]
 enum FabState {
@@ -70,10 +70,14 @@ pub fn FAB(props: FabProps) -> Element {
 
     let width = animation.get::<f32>("width");
 
-    let icon = static_bytes(match props.icon.as_str() {
-        "settings" => icons::settings(false),
-        _ => panic!("there is no icon called {}", props.icon),
-    });
+    let icon = static_bytes(material_icons::icon(
+        &props.icon,
+        IconStyle::Outlined,
+        false,
+    ));
+
+    let theme = crate::use_theme();
+    let theme = theme.read();
 
     rsx! {
         rect {
@@ -81,7 +85,7 @@ pub fn FAB(props: FabProps) -> Element {
             min_width: "24",
             corner_radius: "16",
             main_align: "center",
-            background: "{THEME.primary_container}",
+            background: "{theme.primary_container}",
             padding: "16",
             direction: "horizontal",
             overflow: "clip",
@@ -99,7 +103,7 @@ pub fn FAB(props: FabProps) -> Element {
                 min_width: "56",
 
                 Ripple {
-                    color: THEME.on_primary_container,
+                    color: theme.on_primary_container,
                     height: "56",
                     width: "fill",
                 }
@@ -108,7 +112,7 @@ pub fn FAB(props: FabProps) -> Element {
             svg {
                 width: "24",
                 height: "24",
-                // fill: "{THEME.on_primary_container}",
+                // fill: "{theme.on_primary_container}",
                 svg_data: icon
             }
 
@@ -123,7 +127,7 @@ pub fn FAB(props: FabProps) -> Element {
                     width: "auto",
                     font_size: "14",
                     text_overflow: "clip",
-                    color: "{THEME.on_primary_container}",
+                    color: "{theme.on_primary_container}",
                     {props.label.as_str()}
                 }
             }

@@ -1,10 +1,7 @@
-use std::time::Duration;
-
 use freya::prelude::*;
+use freya_transition::{curves::ICurve, tween::lerp::Lerp, use_transition, Curve};
 use material_colors::color::Argb;
-
-use shared::ColorConversion;
-use transition::{curves::ICurve, tween::lerp::Lerp, use_transition, Curve};
+use std::time::Duration;
 
 const INITIAL_ORIGIN_SCALE: f32 = 0.2;
 const PADDING: f32 = 10.0;
@@ -35,7 +32,10 @@ impl RipplePosition {
     fn new(cursor: Point2D, radius: f32, scale: f32, (height, width): (f32, f32)) -> Self {
         Self {
             start: Point2D::new(cursor.x - radius / 2.0, cursor.y - radius / 2.0),
-            end: Point2D::new((width - radius * scale) / 2.0, (height - radius * scale) / 2.0),
+            end: Point2D::new(
+                (width - radius * scale) / 2.0,
+                (height - radius * scale) / 2.0,
+            ),
         }
     }
 }
@@ -89,7 +89,13 @@ pub struct AdvancedAnimNum {
 
 impl AdvancedAnimNum {
     pub fn new(origin: f32, destination: f32, time: u64, curve: Curve) -> Self {
-        Self { origin, destination, time: Duration::from_millis(time), curve, value: origin }
+        Self {
+            origin,
+            destination,
+            time: Duration::from_millis(time),
+            curve,
+            value: origin,
+        }
     }
 }
 
@@ -136,7 +142,10 @@ impl AnimatedValue for AdvancedAnimNum {
 
             self.value = match &self.curve {
                 Curve::None => destination,
-                curve => origin.lerp(&destination, curve.transform((index as f32).min(time) / time))
+                curve => origin.lerp(
+                    &destination,
+                    curve.transform((index as f32).min(time) / time),
+                ),
             };
 
             if origin == 8.0 {
@@ -155,9 +164,7 @@ pub fn Ripple(props: RippleProps) -> Element {
 
     let mut info = use_signal(RippleInfo::default);
 
-    let bg = props
-        .color
-        .unwrap_or_else(|| Argb::new(255, 255, 255, 255));
+    let bg = props.color.unwrap_or_else(|| Argb::new(255, 255, 255, 255));
 
     let background_animation = use_transition(move |context| {
         context.add_tween("background", 0.0, Curve::LINEAR, 15);
@@ -166,14 +173,29 @@ pub fn Ripple(props: RippleProps) -> Element {
     let opacity_animation = use_transition(|context| {
         context.add_tween("opacity", 0.0, Curve::LINEAR, 75);
     });
-    
+
     let animation = use_animation(move |context| {
         let info = info.read();
 
         (
-            context.with(AdvancedAnimNum::new(info.radius, info.radius * info.scale, 450, Curve::cubic(0.2, 0.0, 0.0, 1.0))),
-            context.with(AdvancedAnimNum::new(info.position.start.x, info.position.end.x, 450, Curve::cubic(0.2, 0.0, 0.0, 1.0))),
-            context.with(AdvancedAnimNum::new(info.position.start.y, info.position.end.y, 450, Curve::cubic(0.2, 0.0, 0.0, 1.0)))
+            context.with(AdvancedAnimNum::new(
+                info.radius,
+                info.radius * info.scale,
+                450,
+                Curve::cubic(0.2, 0.0, 0.0, 1.0),
+            )),
+            context.with(AdvancedAnimNum::new(
+                info.position.start.x,
+                info.position.end.x,
+                450,
+                Curve::cubic(0.2, 0.0, 0.0, 1.0),
+            )),
+            context.with(AdvancedAnimNum::new(
+                info.position.start.y,
+                info.position.end.y,
+                450,
+                Curve::cubic(0.2, 0.0, 0.0, 1.0),
+            )),
         )
     });
 
@@ -184,7 +206,10 @@ pub fn Ripple(props: RippleProps) -> Element {
     let pointerdown = move |event: PointerEvent| {
         // animation.reset();
 
-        info.set(RippleInfo::new(event.get_screen_coordinates().to_f32(), size.read().area));
+        info.set(RippleInfo::new(
+            event.get_screen_coordinates().to_f32(),
+            size.read().area,
+        ));
 
         state.set(RippleState::Holding);
     };
@@ -219,16 +244,11 @@ pub fn Ripple(props: RippleProps) -> Element {
         }
     });
 
-    use_effect(move || {
-        match *state.read() {
-            RippleState::Holding => {
-                opacity_animation.set_duration("opacity", 375);
-                opacity_animation.play([("opacity", 0.12)]);
+    use_effect(move || if *state.read() == RippleState::Holding {
+        opacity_animation.set_duration("opacity", 375);
+        opacity_animation.play([("opacity", 0.12)]);
 
-                animation.start();
-            }
-            _ => {},
-        }
+        animation.start();
     });
 
     let (radius, x, y) = animation.get();
@@ -259,14 +279,14 @@ pub fn Ripple(props: RippleProps) -> Element {
             reference: node_ref,
 
             rect {
-                background: "rgb({bg.to_rgb()})",
+                background: "{bg}",
                 opacity: "{background_opacity}",
                 width: "100%",
                 height: "100%",
             },
 
             rect {
-                background: "radial-gradient(rgb({bg.to_rgb()}) 65%, transparent 100%)",
+                background: "radial-gradient({bg} 65%, transparent 100%)",
                 width: "{radius.read().as_f32()}",
                 height: "{radius.read().as_f32()}",
                 opacity: "{opacity}",

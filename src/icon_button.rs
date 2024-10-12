@@ -1,8 +1,7 @@
+use crate::ripple::Ripple;
 use freya::prelude::*;
 use material_colors::color::Argb;
-
-use crate::{icons, ripple::Ripple};
-use shared::{ColorConversion, THEME};
+use material_icons::IconStyle;
 
 const TRANSPARENT: Argb = Argb::new(0, 0, 0, 0);
 
@@ -71,53 +70,43 @@ pub fn IconButton(props: IconButtonProps) -> Element {
         state.set(ButtonState::Idle);
     };
 
+    let theme = crate::use_theme();
+    let theme = theme.read();
+
     let (background, color, border) = match (kind, selected) {
-        (IconButtonKind::Standard, None | Some(false)) => (
-            TRANSPARENT.to_rgba(),
-            THEME.on_surface_variant,
-            TRANSPARENT.to_rgba(),
-        ),
-        (IconButtonKind::Standard, Some(true)) => (
-            TRANSPARENT.to_rgba(),
-            THEME.primary,
-            TRANSPARENT.to_rgba(),
-        ),
-        (IconButtonKind::Filled, None | Some(true)) => (
-            THEME.primary.to_rgb(),
-            THEME.on_primary,
-            TRANSPARENT.to_rgba(),
-        ),
-        (IconButtonKind::Filled, Some(false)) => (
-            THEME.surface_variant.to_rgb(),
-            THEME.primary,
-            TRANSPARENT.to_rgba(),
-        ),
+        (IconButtonKind::Standard, None | Some(false)) => {
+            (TRANSPARENT, theme.on_surface_variant, TRANSPARENT)
+        }
+        (IconButtonKind::Standard, Some(true)) => (TRANSPARENT, theme.primary, TRANSPARENT),
+        (IconButtonKind::Filled, None | Some(true)) => {
+            (theme.primary, theme.on_primary, TRANSPARENT)
+        }
+        (IconButtonKind::Filled, Some(false)) => {
+            (theme.surface_variant, theme.primary, TRANSPARENT)
+        }
         (IconButtonKind::Tonal, None | Some(true)) => (
-            THEME.secondary_container.to_rgb(),
-            THEME.on_secondary_container,
-            TRANSPARENT.to_rgba(),
+            theme.secondary_container,
+            theme.on_secondary_container,
+            TRANSPARENT,
         ),
-        (IconButtonKind::Tonal, Some(false)) => (
-            THEME.surface_variant.to_rgb(),
-            THEME.on_surface_variant,
-            TRANSPARENT.to_rgba(),
-        ),
-        (IconButtonKind::Outlined, None | Some(false)) => (
-            TRANSPARENT.to_rgba(),
-            THEME.on_surface_variant,
-            THEME.outline.to_rgb(),
-        ),
+        (IconButtonKind::Tonal, Some(false)) => {
+            (theme.surface_variant, theme.on_surface_variant, TRANSPARENT)
+        }
+        (IconButtonKind::Outlined, None | Some(false)) => {
+            (TRANSPARENT, theme.on_surface_variant, theme.outline)
+        }
         (IconButtonKind::Outlined, Some(true)) => (
-            THEME.inverse_surface.to_rgba(),
-            THEME.inverse_on_surface,
-            THEME.inverse_surface.to_rgb(),
+            theme.inverse_surface,
+            theme.inverse_on_surface,
+            theme.inverse_surface,
         ),
     };
 
-    let icon = static_bytes(match props.icon.as_str() {
-        "settings" => icons::settings(selected.unwrap_or_default()),
-        _ => panic!("there is no icon called {}", props.icon),
-    });
+    let icon = static_bytes(material_icons::icon(
+        &props.icon,
+        IconStyle::Outlined,
+        false,
+    ));
 
     rsx! {
         rect {

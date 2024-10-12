@@ -1,7 +1,6 @@
 use crate::icon_button::IconButton;
 use freya::prelude::*;
-use shared::THEME;
-use transition::{use_transition, Curve};
+use freya_transition::{use_transition, Curve};
 
 #[derive(Default, PartialEq, Eq)]
 enum SearchState {
@@ -112,10 +111,13 @@ pub fn Search(
         "none".into()
     };
 
+    let theme = crate::use_theme();
+    let theme = theme.read();
+
     let color = if display_placeholder {
-        &THEME.on_surface_variant
+        &theme.on_surface_variant
     } else {
-        &THEME.on_surface
+        &theme.on_surface
     };
 
     let text = if display_placeholder {
@@ -152,7 +154,7 @@ pub fn Search(
                 spacing: "8",
                 direction: "horizontal",
                 corner_radius: "16",
-                background: "{THEME.surface_container_high}",
+                background: "{theme.surface_container_high}",
                 overflow: "clip",
                 layer: "-20",
 
@@ -163,7 +165,7 @@ pub fn Search(
                 //     margin: "-16",
 
                 //     Ripple {
-                //         color: THEME.on_surface,
+                //         color: theme.on_surface,
                 //     }
                 // }
 
@@ -230,19 +232,19 @@ pub fn Search(
                 rect {
                     width: "fill",
                     height: "16",
-                    background: "{THEME.surface_container_high}",
+                    background: "{theme.surface_container_high}",
                 }
 
                 rect {
                     width: "fill",
                     height: "1",
-                    background: "{THEME.outline}",
+                    background: "{theme.outline}",
                 }
 
                 rect {
                     width: "fill",
                     corner_radius: "0 0 16 16",
-                    background: "{THEME.surface_container_high}",
+                    background: "{theme.surface_container_high}",
                     padding: "8",
                     spacing: "8",
                     reference,
@@ -250,8 +252,8 @@ pub fn Search(
                     rect {
                         width: "fill",
                         corner_radius: "16",
-                        background: "{THEME.surface_container_highest}",
-                        color: "{THEME.on_surface}",
+                        background: "{theme.surface_container_highest}",
+                        color: "{theme.on_surface}",
                         padding: "8",
 
                         label { "nice suggestion item" }
@@ -260,8 +262,8 @@ pub fn Search(
                     rect {
                         width: "fill",
                         corner_radius: "16",
-                        background: "{THEME.surface_container_highest}",
-                        color: "{THEME.on_surface}",
+                        background: "{theme.surface_container_highest}",
+                        color: "{theme.on_surface}",
                         padding: "8",
 
                         label { "nice suggestion item" }
@@ -270,8 +272,8 @@ pub fn Search(
                     rect {
                         width: "fill",
                         corner_radius: "16",
-                        background: "{THEME.surface_container_highest}",
-                        color: "{THEME.on_surface}",
+                        background: "{theme.surface_container_highest}",
+                        color: "{theme.on_surface}",
                         padding: "8",
 
                         label { "nice suggestion item" }
@@ -280,15 +282,15 @@ pub fn Search(
                     rect {
                         width: "fill",
                         corner_radius: "16",
-                        background: "{THEME.surface_container_highest}",
-                        color: "{THEME.on_surface}",
+                        background: "{theme.surface_container_highest}",
+                        color: "{theme.on_surface}",
                         padding: "8",
 
                         label { "nice suggestion item" }
                     }
 
                     label {
-                        color: "{THEME.on_surface}",
+                        color: "{theme.on_surface}",
                         font_size: "18",
                         font_weight: "bold",
 
@@ -305,8 +307,8 @@ pub fn Search(
                             corner_radius: "24",
                             main_align: "center",
                             cross_align: "center",
-                            background: "{THEME.surface_container_highest}",
-                            color: "{THEME.on_surface}",
+                            background: "{theme.surface_container_highest}",
+                            color: "{theme.on_surface}",
     
                             label { "AM" }
                         }
@@ -317,8 +319,8 @@ pub fn Search(
                             corner_radius: "24",
                             main_align: "center",
                             cross_align: "center",
-                            background: "{THEME.surface_container_highest}",
-                            color: "{THEME.on_surface}",
+                            background: "{theme.surface_container_highest}",
+                            color: "{theme.on_surface}",
     
                             label { "AM" }
                         }
@@ -329,8 +331,8 @@ pub fn Search(
                             corner_radius: "24",
                             main_align: "center",
                             cross_align: "center",
-                            background: "{THEME.surface_container_highest}",
-                            color: "{THEME.on_surface}",
+                            background: "{theme.surface_container_highest}",
+                            color: "{theme.on_surface}",
     
                             label { "AM" }
                         }
@@ -341,8 +343,8 @@ pub fn Search(
                             corner_radius: "24",
                             main_align: "center",
                             cross_align: "center",
-                            background: "{THEME.surface_container_highest}",
-                            color: "{THEME.on_surface}",
+                            background: "{theme.surface_container_highest}",
+                            color: "{theme.on_surface}",
     
                             label { "AM" }
                         }
@@ -353,8 +355,8 @@ pub fn Search(
                             corner_radius: "24",
                             main_align: "center",
                             cross_align: "center",
-                            background: "{THEME.surface_container_highest}",
-                            color: "{THEME.on_surface}",
+                            background: "{theme.surface_container_highest}",
+                            color: "{theme.on_surface}",
     
                             label { "AM" }
                         }
