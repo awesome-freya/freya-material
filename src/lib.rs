@@ -7,6 +7,17 @@ pub mod search;
 pub mod side_sheet;
 pub mod switch;
 
+pub use self::{
+    button::{Button, ButtonKind},
+    fab::FAB,
+    icon_button::{IconButton, IconButtonKind},
+    rail::{NavigationRail, RailItemAlignment},
+    ripple::Ripple,
+    search::Search,
+    side_sheet::{SideSheet, SideSheetKind},
+    switch::Switch,
+};
+
 use freya::prelude::{try_use_context, use_context_provider, Signal, Writable};
 use material_colors::{color::Argb, scheme::Scheme, theme::ThemeBuilder};
 
