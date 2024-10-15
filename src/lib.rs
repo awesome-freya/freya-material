@@ -1,25 +1,8 @@
-pub mod button;
-pub mod fab;
-pub mod icon_button;
-pub mod rail;
-pub mod ripple;
-pub mod search;
-pub mod side_sheet;
-pub mod switch;
+pub(crate) mod components;
+pub mod material_design;
 
 pub mod prelude {
-    pub use crate::{
-        button::{Button, ButtonKind},
-        fab::FAB,
-        icon_button::{IconButton, IconButtonKind},
-        rail::{NavigationRail, RailItemAlignment},
-        ripple::Ripple,
-        search::Search,
-        set_material_theme,
-        side_sheet::{SideSheet, SideSheetKind},
-        switch::Switch,
-        use_material_theme, ArgbExt,
-    };
+    pub use crate::{components::*, set_material_theme, use_material_theme, ArgbExt, material_design};
 }
 
 use freya::prelude::{try_use_context, use_context_provider, Signal, Writable};

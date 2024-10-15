@@ -105,7 +105,7 @@ pub fn Button(props: ButtonProps) -> Element {
     rsx! {
         rect {
             height: "40",
-            corner_radius: "20",
+            corner_radius: material_design::shape::FULL,
             main_align: "center",
             background: "{background.as_rgba()}",
             border: "1 solid {border.as_rgba()}",
