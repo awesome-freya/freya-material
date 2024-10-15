@@ -2,7 +2,10 @@ pub(crate) mod components;
 pub mod material_design;
 
 pub mod prelude {
-    pub use crate::{material_design, set_material_theme, use_material_theme, ArgbExt};
+    pub use crate::{
+        components::*, material_design, set_material_theme, use_material_theme, ArgbExt,
+        LaunchConfigExt,
+    };
 }
 
 use freya::prelude::{try_use_context, use_context_provider, LaunchConfig, Signal, Writable};
