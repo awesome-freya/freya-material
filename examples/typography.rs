@@ -26,34 +26,32 @@ fn App() -> Element {
             height: "fill",
 
             for variant in [
-                TypescaleVariant::Display,
-                TypescaleVariant::Headline,
-                TypescaleVariant::Title,
-                TypescaleVariant::Body,
-                TypescaleVariant::Label
+                material_design::TypescaleVariant::Display,
+                material_design::TypescaleVariant::Headline,
+                material_design::TypescaleVariant::Title,
+                material_design::TypescaleVariant::Body,
+                material_design::TypescaleVariant::Label
             ] {
-                for size in [TypescaleSize::Large, TypescaleSize::Medium, TypescaleSize::Small] {
-                    if variant == TypescaleVariant::Label {
-                        for prominent in [true, false] {
-                            Typography {
-                                variant,
-                                size,
-                                prominent,
-
-                                if prominent {
-                                    "{size:?} Prominent {variant:?}"
-                                } else {
-                                    "{size:?} {variant:?}"
-                                }
-                            }
-                        }
-                    } else {
+                for size in [
+                    material_design::TypescaleSize::Large,
+                    material_design::TypescaleSize::Medium,
+                    material_design::TypescaleSize::Small
+                ] {
+                    if variant == material_design::TypescaleVariant::Label && size != material_design::TypescaleSize::Small {
                         Typography {
                             variant,
                             size,
+                            prominent: true,
 
-                            "{size:?} {variant:?}"
+                            "{size:?} Prominent {variant:?}"
                         }
+                    }
+
+                    Typography {
+                        variant,
+                        size,
+
+                        "{size:?} {variant:?}"
                     }
                 }
             }
