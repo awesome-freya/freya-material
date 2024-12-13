@@ -13,11 +13,17 @@ fn main() {
 
 #[component]
 fn App() -> Element {
+    let theme = use_material_theme();
+    let theme = theme.read();
+
     rsx! {
         rect {
             direction: "vertical",
             spacing: "12",
-            color: "black",
+            background: "{theme.surface}",
+            color: "{theme.on_surface}",
+            width: "fill",
+            height: "fill",
 
             for variant in [
                 TypescaleVariant::Display,
