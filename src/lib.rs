@@ -28,7 +28,7 @@ pub trait LaunchConfigExt {
     fn with_roboto(self) -> Self;
 }
 
-impl<'a, T: Clone> LaunchConfigExt for LaunchConfig<'a, T> {
+impl<T: Clone> LaunchConfigExt for LaunchConfig<'_, T> {
     fn with_roboto(self) -> Self {
         self.with_font("Roboto", ROBOTO_THIN)
             .with_font("Roboto", ROBOTO_THIN_ITALIC)
