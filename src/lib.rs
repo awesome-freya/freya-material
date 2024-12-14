@@ -53,7 +53,7 @@ impl ArgbExt for Argb {
     fn as_rgba(&self) -> String {
         format!(
             "rgb({}, {}, {}, {})",
-            self.red, self.blue, self.green, self.alpha
+            self.red, self.green, self.blue, self.alpha
         )
     }
 }
