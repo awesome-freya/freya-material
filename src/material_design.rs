@@ -1,40 +1,172 @@
-/// Levels: (0, 1, 2, 3, 4, 5)
-pub const ELEVATION: [u8; 6] = [0, 1, 3, 6, 8, 12];
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub enum Elevation {
+    Level0,
+    Level1,
+    Level2,
+    Level3,
+    Level4,
+    Level5,
+}
 
-pub mod motion {
-    pub mod easing {
-        use freya_transition::Curve;
-
-        pub const EMPHASIZED: Curve = Curve::EASE_IN_OUT_CUBIC_EMPHASIZED;
-        pub const EMPHASIZED_DECELERATE: Curve = Curve::cubic(0.05, 0.7, 0.1, 1.0);
-        pub const EMPHASIZED_ACCELERATE: Curve = Curve::cubic(0.3, 0.0, 0.8, 0.15);
-
-        pub const STANDARD: Curve = Curve::cubic(0.2, 0.0, 0.0, 1.0);
-        pub const STANDARD_DECELERATE: Curve = Curve::cubic(0.0, 0.0, 0.0, 1.0);
-        pub const STANDARD_ACCELERATE: Curve = Curve::cubic(0.3, 0.0, 1.0, 1.0);
+impl Elevation {
+    pub fn as_value(&self) -> u8 {
+        match self {
+            Self::Level0 => 0,
+            Self::Level1 => 1,
+            Self::Level2 => 3,
+            Self::Level3 => 6,
+            Self::Level4 => 8,
+            Self::Level5 => 12,
+        }
     }
 
-    pub mod duration {
-        pub const SHORT: [u64; 4] = [50, 100, 150, 200];
-        pub const MEDIUM: [u64; 4] = [250, 300, 350, 400];
-        pub const LONG: [u64; 4] = [450, 500, 550, 600];
-        pub const EXTRA_LONG: [u64; 4] = [700, 800, 900, 1000];
+    pub fn into_value(self) -> u8 {
+        self.as_value()
+    }
+
+    // Code taken from https://github.com/material-components/material-web/blob/main/elevation/internal/_elevation.scss
+    pub fn as_shadow(&self) -> String {
+        let level = i32::from(self.as_value());
+
+        let (y1, blur1, color1) = {
+            let level1_y = level.clamp(0, 1);
+            let level4_y = (level - 3).clamp(0, 1);
+            let level5_y = 2 * (level - 4).clamp(0, 1);
+
+            let level1_blur = 2 * level.clamp(0, 1);
+            let level3_blur = (level - 2).clamp(0, 1);
+            let level5_blur = (level - 4).clamp(0, 1);
+
+            (
+                level1_y + level4_y + level5_y,
+                level1_blur + level3_blur + level5_blur,
+                "rgb(0, 0, 0, 0.3)",
+            )
+        };
+
+        let (y2, blur2, spread, color2) = {
+            let level1_y = level.clamp(0, 1);
+            let level2_y = (level - 1).clamp(0, 1);
+            let level3to5_y = 2 * (level - 2).clamp(0, 3);
+            let level1to2_blur = 3 * level.clamp(0, 2);
+            let level3to5_blur = 2 * (level - 2).clamp(0, 3);
+            let level1to4_spread = level.clamp(0, 4);
+            let level5_spread = 2 * (level - 4).clamp(0, 1);
+
+            (
+                level1_y + level2_y + level3to5_y,
+                level1to2_blur + level3to5_blur,
+                level1to4_spread + level5_spread,
+                "rgb(0, 0, 0, 0.15)",
+            )
+        };
+
+        format!("0 {y1} {blur1} 0 {color1}, 0 {y2} {blur2} {spread} {color2}")
+    }
+
+    pub fn into_shadow(self) -> String {
+        self.as_shadow()
     }
 }
 
-pub mod shape {
-    pub const NONE: &str = "0";
-    pub const EXTRA_SMALL: &str = "4";
-    pub const EXTRA_SMALL_TOP: &str = "4 4 0 0";
-    pub const SMALL: &str = "8";
-    pub const MEDIUM: &str = "12";
-    pub const LARGE: &str = "16";
-    pub const LARGE_START: &str = "16 0 0 16";
-    pub const LARGE_END: &str = "0 16 16 0";
-    pub const LARGE_TOP: &str = "16 16 0 0";
-    pub const EXTRA_LARGE: &str = "28";
-    pub const EXTRA_LARGE_TOP: &str = "28 28 0 0";
-    pub const FULL: &str = "9999";
+pub mod motion {
+    use freya_transition::Curve;
+
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    pub enum Easing {
+        Emphasized,
+        EmphasizedDecelerate,
+        EmphasizedAccelerate,
+        Standard,
+        StandardDecelerate,
+        StandardAccelerate,
+    }
+
+    impl Easing {
+        const EMPHASIZED: Curve = Curve::EASE_IN_OUT_CUBIC_EMPHASIZED;
+        const EMPHASIZED_DECELERATE: Curve = Curve::cubic(0.05, 0.7, 0.1, 1.0);
+        const EMPHASIZED_ACCELERATE: Curve = Curve::cubic(0.3, 0.0, 0.8, 0.15);
+        const STANDARD: Curve = Curve::cubic(0.2, 0.0, 0.0, 1.0);
+        const STANDARD_DECELERATE: Curve = Curve::cubic(0.0, 0.0, 0.0, 1.0);
+        const STANDARD_ACCELERATE: Curve = Curve::cubic(0.3, 0.0, 1.0, 1.0);
+
+        pub const fn as_value(&self) -> Curve {
+            match self {
+                Self::Emphasized => Self::EMPHASIZED,
+                Self::EmphasizedDecelerate => Self::EMPHASIZED_DECELERATE,
+                Self::EmphasizedAccelerate => Self::EMPHASIZED_ACCELERATE,
+                Self::Standard => Self::STANDARD,
+                Self::StandardDecelerate => Self::STANDARD_DECELERATE,
+                Self::StandardAccelerate => Self::STANDARD_ACCELERATE,
+            }
+        }
+
+        pub const fn into_value(self) -> Curve {
+            self.as_value()
+        }
+    }
+
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    pub enum EasingDuration {
+        Short,
+        Medium,
+        Long,
+        ExtraLong,
+    }
+
+    impl EasingDuration {
+        pub const fn as_value(&self) -> [u64; 4] {
+            match self {
+                Self::Short => [50, 100, 150, 200],
+                Self::Medium => [250, 300, 350, 400],
+                Self::Long => [450, 500, 550, 600],
+                Self::ExtraLong => [700, 800, 900, 1000],
+            }
+        }
+
+        pub const fn into_value(self) -> [u64; 4] {
+            self.as_value()
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub enum Shape {
+    None,
+    ExtraSmall,
+    ExtraSmallTop,
+    Small,
+    Medium,
+    Large,
+    LargeStart,
+    LargeEnd,
+    LargeTop,
+    ExtraLarge,
+    ExtraLargeTop,
+    Full,
+}
+
+impl Shape {
+    pub const fn as_value(&self) -> &'static str {
+        match self {
+            Self::None => "0",
+            Self::ExtraSmall => "4",
+            Self::ExtraSmallTop => "4 4 0 0",
+            Self::Small => "8",
+            Self::Medium => "12",
+            Self::Large => "16",
+            Self::LargeStart => "16 0 0 16",
+            Self::LargeEnd => "0 16 16 0",
+            Self::LargeTop => "16 16 0 0",
+            Self::ExtraLarge => "28",
+            Self::ExtraLargeTop => "28 28 0 0",
+            Self::Full => "9999",
+        }
+    }
+
+    pub const fn into_value(self) -> &'static str {
+        self.as_value()
+    }
 }
 
 mod typescale {
@@ -83,7 +215,7 @@ mod typescale {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum TypescaleVariant {
     Display,
     Headline,
@@ -92,7 +224,7 @@ pub enum TypescaleVariant {
     Label,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum TypescaleSize {
     Large,
     Medium,
@@ -102,7 +234,7 @@ pub enum TypescaleSize {
 /// (Family, Weight, Size, Tracking (?), Line Height)
 pub type Typescale = (&'static str, usize, usize, f32, usize);
 
-pub fn get_type_scale(
+pub(crate) fn get_type_scale(
     variant: TypescaleVariant,
     size: TypescaleSize,
     prominent: bool,

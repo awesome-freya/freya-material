@@ -1,10 +1,14 @@
-pub(crate) mod components;
+mod components;
 pub mod material_design;
 
 pub mod prelude {
     pub use crate::{
-        components::*, material_design, set_material_theme, use_material_theme, ArgbExt,
-        LaunchConfigExt,
+        components::*,
+        material_design::{
+            motion::{Easing, EasingDuration},
+            Elevation, Shape, TypescaleSize, TypescaleVariant,
+        },
+        set_material_theme, use_material_theme, ArgbExt, LaunchConfigExt,
     };
 }
 

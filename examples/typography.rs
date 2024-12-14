@@ -17,7 +17,7 @@ fn App() -> Element {
     let theme = theme.read();
 
     rsx! {
-        rect {
+        Surface {
             direction: "vertical",
             spacing: "12",
             background: "{theme.surface}",
@@ -26,18 +26,18 @@ fn App() -> Element {
             height: "fill",
 
             for variant in [
-                material_design::TypescaleVariant::Display,
-                material_design::TypescaleVariant::Headline,
-                material_design::TypescaleVariant::Title,
-                material_design::TypescaleVariant::Body,
-                material_design::TypescaleVariant::Label
+                TypescaleVariant::Display,
+                TypescaleVariant::Headline,
+                TypescaleVariant::Title,
+                TypescaleVariant::Body,
+                TypescaleVariant::Label
             ] {
                 for size in [
-                    material_design::TypescaleSize::Large,
-                    material_design::TypescaleSize::Medium,
-                    material_design::TypescaleSize::Small
+                    TypescaleSize::Large,
+                    TypescaleSize::Medium,
+                    TypescaleSize::Small
                 ] {
-                    if variant == material_design::TypescaleVariant::Label && size != material_design::TypescaleSize::Small {
+                    if variant == TypescaleVariant::Label && size != TypescaleSize::Small {
                         Typography {
                             variant,
                             size,

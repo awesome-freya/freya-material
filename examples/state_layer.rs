@@ -17,19 +17,19 @@ fn App() -> Element {
     let theme = theme.read();
 
     rsx! {
-        rect {
+        Surface {
             width: "fill",
             height: "fill",
             background: "{theme.surface}",
             spacing: "8",
             padding: "12",
 
-            rect {
-                corner_radius: "24",
+            Surface {
                 height: "128",
                 width: "192",
                 background: "{theme.primary_container}",
                 color: "{theme.on_primary_container}",
+                shape: Shape::Large,
                 main_align: "center",
                 cross_align: "center",
                 overflow: "clip",
@@ -41,12 +41,12 @@ fn App() -> Element {
                 Typography { "It's state layer!" }
             }
 
-            rect {
-                corner_radius: "24",
+            Surface {
                 height: "48",
                 width: "48",
                 background: "{theme.primary_container}",
                 color: "{theme.on_primary_container}",
+                shape: Shape::Large,
                 main_align: "center",
                 cross_align: "center",
                 overflow: "clip",

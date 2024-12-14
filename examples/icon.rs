@@ -17,7 +17,7 @@ fn App() -> Element {
     let theme = theme.read();
 
     rsx! {
-        rect {
+        Surface {
             direction: "vertical",
             spacing: "12",
             background: "{theme.surface}",
