@@ -1,7 +1,7 @@
 mod icon;
 mod state_layer;
-mod typography;
 mod surface;
+mod typography;
 
 pub use self::{
     icon::{Icon, IconStyle},
