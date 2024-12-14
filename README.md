@@ -13,7 +13,7 @@ It is currently in early stage of development.
   - [x] Motion
 - [ ] Components
   - [x] State Layers
-  - [ ] Icons
+  - [x] Icons
   - [ ] Menus
   - [ ] Text Fields
   - [ ] Tabs
