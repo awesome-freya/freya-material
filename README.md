@@ -6,9 +6,9 @@ It is currently in early stage of development.
 
 ## Progress
 
-- [ ] MD Tokens
+- [x] MD Tokens
   - [x] Colors
-  - [ ] Typography
+  - [x] Typography
   - [x] Shapes
   - [x] Motion
 - [ ] Components
