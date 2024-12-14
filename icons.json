@@ -1,1 +1,14 @@
-["language", "local_library", "star", "library_books", "bookmark", "edit", "menu", "menu_open"]
+[
+    "language",
+    "local_library",
+    "star",
+    {
+        "name": "star",
+        "filled": true
+    },
+    "library_books",
+    "bookmark",
+    "edit",
+    "menu",
+    "menu_open"
+]

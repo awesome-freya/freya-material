@@ -5,8 +5,6 @@ pub use material_icons::IconStyle;
 pub fn Icon(
     name: String,
     color: Option<String>,
-    fill: Option<String>,
-    stroke: Option<String>,
     width: Option<String>,
     height: Option<String>,
     #[props(default = IconStyle::Outlined)] style: IconStyle,
@@ -16,9 +14,8 @@ pub fn Icon(
 
     rsx! {
         svg {
+            fill: color.clone(),
             color,
-            fill,
-            stroke,
             width,
             height,
             svg_data,

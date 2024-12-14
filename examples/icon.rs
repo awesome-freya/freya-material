@@ -27,7 +27,15 @@ fn App() -> Element {
 
             Icon {
                 name: "star",
-                fill: "red",
+                color: "red",
+                width: "64",
+                height: "64",
+            }
+
+            Icon {
+                name: "star",
+                color: "red",
+                filled: true,
                 width: "64",
                 height: "64",
             }
