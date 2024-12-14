@@ -1721,6 +1721,7 @@ dependencies = [
 [[package]]
 name = "freya-transition"
 version = "0.1.0"
+source = "git+https://github.com/awesome-freya/freya-transition.git#e8cef4892ea553c2f59c3ec7a88f3d2b32eaed3a"
 dependencies = [
  "freya",
  "freya-node-state",
