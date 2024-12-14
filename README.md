@@ -12,7 +12,7 @@ It is currently in early stage of development.
   - [x] Shapes
   - [x] Motion
 - [ ] Components
-  - [ ] State Layers
+  - [x] State Layers
   - [ ] Icons
   - [ ] Menus
   - [ ] Text Fields

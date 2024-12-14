@@ -1,3 +1,4 @@
+mod state_layer;
 mod typography;
 
-pub use self::typography::Typography;
+pub use self::{state_layer::StateLayer, typography::Typography};
