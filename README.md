@@ -31,7 +31,7 @@ It is currently in early stage of development.
   - [ ] Side sheets
   - [ ] Tooltips
   - [ ] Switch
-  - [ ] Radio Button
+  - [x] Radio Button
   - [ ] Divider
   - [ ] Chips
   - [ ] Checkbox
