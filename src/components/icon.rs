@@ -1,6 +1,23 @@
 use freya::prelude::*;
 pub use material_icons::IconStyle;
 
+#[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub struct IconData {
+    pub name: &'static str,
+    pub style: IconStyle,
+    pub filled: bool,
+}
+
+impl Default for IconData {
+    fn default() -> Self {
+        Self {
+            name: "",
+            style: IconStyle::Outlined,
+            filled: false,
+        }
+    }
+}
+
 #[component]
 pub fn Icon(
     name: String,

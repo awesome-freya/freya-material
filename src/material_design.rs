@@ -9,7 +9,7 @@ pub enum Elevation {
 }
 
 impl Elevation {
-    pub fn as_value(&self) -> u8 {
+    pub const fn as_value(&self) -> u8 {
         match self {
             Self::Level0 => 0,
             Self::Level1 => 1,
@@ -20,12 +20,11 @@ impl Elevation {
         }
     }
 
-    pub fn into_value(self) -> u8 {
+    pub const fn into_value(self) -> u8 {
         self.as_value()
     }
 
-    // Code taken from https://github.com/material-components/material-web/blob/main/elevation/internal/_elevation.scss
-    pub fn as_shadow(&self) -> String {
+    fn calc(&self) -> (i32, i32, &'static str, i32, i32, i32, &'static str) {
         let level = i32::from(self.as_value());
 
         let (y1, blur1, color1) = {
@@ -60,6 +59,13 @@ impl Elevation {
                 "rgb(0, 0, 0, 0.15)",
             )
         };
+
+        (y1, blur1, color1, y2, blur2, spread, color2)
+    }
+
+    // Code taken from https://github.com/material-components/material-web/blob/main/elevation/internal/_elevation.scss
+    pub fn as_shadow(&self) -> String {
+        let (y1, blur1, color1, y2, blur2, spread, color2) = self.calc();
 
         format!("0 {y1} {blur1} 0 {color1}, 0 {y2} {blur2} {spread} {color2}")
     }
