@@ -39,7 +39,7 @@ It is currently in early stage of development.
   - [ ] Segmented Buttons
   - [ ] Icon Buttons
   - [ ] FAB (including extended variant)
-  - [ ] Buttons
+  - [x] Buttons
   - [ ] Search
 
 ## License
