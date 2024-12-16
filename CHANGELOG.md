@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **added**: Add `func:use_material_theme` and `func:set_material_theme` for managing app theme.
 - **added**: Add `trait:LaunchConfigExt`, which provides `func:with_roboto` for `struct:LaunchConfig`, to add the `Roboto` font to the application.
 - **added**: Components (including examples for them)
+  - `component:IconButton`
   - `component:Icon`
   - `component:StateLayer`
   - `component:Typography`
