@@ -7,7 +7,7 @@ pub enum ButtonStyle {
     Filled,
     FilledTonal,
     Outlined,
-    Text
+    Text,
 }
 
 #[component]
@@ -18,18 +18,22 @@ pub fn Button(style: ButtonStyle, icon: Option<IconData>, children: Element) -> 
     let (background, color, border) = match style {
         ButtonStyle::Elevated => (Some(theme.surface_container_low), theme.primary, None),
         ButtonStyle::Filled => (Some(theme.primary), theme.on_primary, None),
-        ButtonStyle::FilledTonal => (Some(theme.secondary_container), theme.on_secondary_container, None),
-        ButtonStyle::Outlined => (None, theme.primary, Some(format!("1 inner {}", theme.outline))),
+        ButtonStyle::FilledTonal => (
+            Some(theme.secondary_container),
+            theme.on_secondary_container,
+            None,
+        ),
+        ButtonStyle::Outlined => (
+            None,
+            theme.primary,
+            Some(format!("1 inner {}", theme.outline)),
+        ),
         ButtonStyle::Text => (None, theme.primary, None),
     };
-    
+
     let (background, color) = (background.map(|color| color.to_string()), color.to_string());
 
-    let padding = if style == ButtonStyle::Text {
-        12
-    } else {
-        24
-    };
+    let padding = if style == ButtonStyle::Text { 12 } else { 24 };
 
     let padding_left = if icon.is_some() && style != ButtonStyle::Text {
         16
