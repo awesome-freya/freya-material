@@ -12,5 +12,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **added**: Add `trait:LaunchConfigExt`, which provides `func:with_roboto` for `struct:LaunchConfig`, to add the `Roboto` font to the application.
 - **added**: Components (including examples for them)
   - `component:Icon`
+  - `component:RadioButton`
   - `component:StateLayer`
   - `component:Typography`
