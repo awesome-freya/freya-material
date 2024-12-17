@@ -21,6 +21,7 @@ fn App() -> Element {
     rsx! {
         Surface {
             direction: "vertical",
+            padding: "12",
             spacing: "12",
             background: "{theme.surface}",
             color: "{theme.on_surface}",

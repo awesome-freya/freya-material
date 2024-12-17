@@ -17,13 +17,14 @@ pub fn Switch(toggled: bool, on_toggle: EventHandler<()>) -> Element {
 
     let mut state = use_signal(SwitchState::default);
 
-    let (background, handle_color, border_color) = if toggled {
-        (theme.primary, theme.on_primary, theme.primary)
+    let (background, handle_color, border_color, state_layer_color) = if toggled {
+        (theme.primary, theme.on_primary, theme.primary, theme.primary)
     } else {
         (
             theme.surface_container_highest,
             theme.outline,
             theme.outline,
+            theme.on_surface
         )
     };
 
@@ -97,6 +98,22 @@ pub fn Switch(toggled: bool, on_toggle: EventHandler<()>) -> Element {
                     height: "{radius}",
                     corner_radius: "{radius / 2.0}",
                     background: "{handle_color}",
+                }
+
+                rect {
+                    width: "40",
+                    height: "40",
+                    position: "absolute",
+                    position_left: "{offset - 7.0}",
+                    position_top: "-6",
+                    corner_radius: "20",
+                    overflow: "clip",
+
+                    StateLayer {
+                        height: "fill",
+                        width: "fill",
+                        color: "{state_layer_color}",
+                    }
                 }
             }
         }
