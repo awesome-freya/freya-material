@@ -30,7 +30,7 @@ It is currently in early stage of development.
   - [ ] Progress Indicators
   - [ ] Side sheets
   - [ ] Tooltips
-  - [ ] Switch
+  - [x] Switch
   - [ ] Radio Button
   - [ ] Divider
   - [ ] Chips
