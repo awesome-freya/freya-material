@@ -18,13 +18,18 @@ pub fn Switch(toggled: bool, on_toggle: EventHandler<()>) -> Element {
     let mut state = use_signal(SwitchState::default);
 
     let (background, handle_color, border_color, state_layer_color) = if toggled {
-        (theme.primary, theme.on_primary, theme.primary, theme.primary)
+        (
+            theme.primary,
+            theme.on_primary,
+            theme.primary,
+            theme.primary,
+        )
     } else {
         (
             theme.surface_container_highest,
             theme.outline,
             theme.outline,
-            theme.on_surface
+            theme.on_surface,
         )
     };
 
