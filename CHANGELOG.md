@@ -13,4 +13,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **added**: Components (including examples for them)
   - `component:Icon`
   - `component:StateLayer`
+  - `component:Switch`
   - `component:Typography`
