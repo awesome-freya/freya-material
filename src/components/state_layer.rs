@@ -1,5 +1,5 @@
-use freya::prelude::*;
 use crate::prelude::*;
+use freya::prelude::*;
 use freya_transition::{use_transition, Curve};
 
 const INITIAL_ORIGIN_SCALE: f32 = 0.2;
