@@ -1,3 +1,4 @@
+use crate::prelude::*;
 use freya::prelude::*;
 use freya_transition::{use_transition, Curve};
 
@@ -86,6 +87,7 @@ pub fn StateLayer(
     position_left: Option<String>,
     position_top: Option<String>,
     color: String,
+    shape: Option<Shape>,
     height: Option<String>,
     width: Option<String>,
 ) -> Element {
@@ -150,6 +152,7 @@ pub fn StateLayer(
         rect {
             width: "{width}",
             height: "{height}",
+            corner_radius: shape.map(|shape| shape.into_value()),
             position: "absolute",
             position_left,
             position_top,

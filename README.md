@@ -33,7 +33,7 @@ It is currently in early stage of development.
   - [ ] Switch
   - [ ] Radio Button
   - [ ] Divider
-  - [ ] Chips
+  - [x] Chips
   - [ ] Checkbox
   - [ ] Cards
   - [ ] Segmented Buttons
