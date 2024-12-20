@@ -1,3 +1,4 @@
+use dioxus_core::AttributeValue;
 use freya::prelude::*;
 
 use crate::{material_design::Shape, prelude::Elevation};
@@ -16,8 +17,12 @@ pub fn Surface(
     margin: Option<String>,
     opacity: Option<String>,
     overflow: Option<String>,
+    border: Option<String>,
+    layer: Option<String>,
     shape: Option<Shape>,
     elevation: Option<Elevation>,
+    reference: Option<AttributeValue>,
+    on_click: Option<EventHandler<MouseEvent>>,
     children: Element,
 ) -> Element {
     let corner_radius = shape.map(Shape::into_value);
@@ -36,9 +41,16 @@ pub fn Surface(
             shadow,
             spacing,
             padding,
+            border,
             margin,
             opacity,
             overflow,
+            reference,
+            layer,
+
+            onclick: move |data| if let Some(handler) = on_click {
+                handler(data)
+            },
 
             {children}
         }
