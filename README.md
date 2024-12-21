@@ -37,9 +37,9 @@ It is currently in early stage of development.
   - [ ] Checkbox
   - [ ] Cards
   - [ ] Segmented Buttons
-  - [ ] Icon Buttons
+  - [x] Icon Buttons
   - [ ] FAB (including extended variant)
-  - [ ] Buttons
+  - [x] Buttons
   - [ ] Search
 
 ## License
