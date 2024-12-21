@@ -86,7 +86,7 @@ pub fn IconButton(
             overflow: "clip",
 
             onclick: move |data| if !disabled {
-                on_click.call(data)
+                on_click.call(data);
             },
 
             if !disabled {
