@@ -93,7 +93,9 @@ pub fn Button(
 
             reference,
 
-            onclick: move |data| on_click.call(data),
+            onclick: move |data| if !disabled {
+                on_click.call(data)
+            },
 
             if !disabled {
                 StateLayer {
