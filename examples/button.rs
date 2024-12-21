@@ -41,20 +41,32 @@ fn App() -> Element {
                     spacing: "8",
 
                     Button {
+                        label: "Hello world!",
+                        on_click: |_| {},
                         style,
-
-                        "Hello world!"
                     }
 
                     Button {
-                        style,
+                        label: "Hello world!",
                         icon: IconData {
                             name: "star",
                             filled: true,
                             ..Default::default()
                         },
+                        on_click: |_| {},
+                        style,
+                    }
 
-                        "Hello world!"
+                    Button {
+                        label: "Hello world!",
+                        icon: IconData {
+                            name: "star",
+                            filled: true,
+                            ..Default::default()
+                        },
+                        on_click: |_| {},
+                        style,
+                        disabled: true
                     }
                 }
             }

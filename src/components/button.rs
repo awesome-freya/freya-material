@@ -11,27 +11,57 @@ pub enum ButtonStyle {
 }
 
 #[component]
-pub fn Button(style: ButtonStyle, icon: Option<IconData>, children: Element) -> Element {
+pub fn Button(
+    style: ButtonStyle,
+    icon: Option<IconData>,
+    label: String,
+    on_click: EventHandler<MouseEvent>,
+    #[props(default)] disabled: bool,
+) -> Element {
     let theme = use_material_theme();
     let theme = theme.read();
 
-    let (background, color, border) = match style {
-        ButtonStyle::Elevated => (Some(theme.surface_container_low), theme.primary, None),
-        ButtonStyle::Filled => (Some(theme.primary), theme.on_primary, None),
-        ButtonStyle::FilledTonal => (
+    let (background, color, border) = match (style, disabled) {
+        (ButtonStyle::Elevated, false) => (Some(theme.surface_container_low), theme.primary, None),
+        (ButtonStyle::Elevated, true) => (
+            Some(theme.on_surface.with_alpha_f32(0.12)),
+            theme.on_surface.with_alpha_f32(0.38),
+            None,
+        ),
+        (ButtonStyle::Filled, false) => (Some(theme.primary), theme.on_primary, None),
+        (ButtonStyle::Filled, true) => (
+            Some(theme.on_surface.with_alpha_f32(0.12)),
+            theme.on_surface.with_alpha_f32(0.38),
+            None,
+        ),
+        (ButtonStyle::FilledTonal, false) => (
             Some(theme.secondary_container),
             theme.on_secondary_container,
             None,
         ),
-        ButtonStyle::Outlined => (
+        (ButtonStyle::FilledTonal, true) => (
+            Some(theme.on_surface.with_alpha_f32(0.12)),
+            theme.on_surface.with_alpha_f32(0.38),
+            None,
+        ),
+        (ButtonStyle::Outlined, false) => (
             None,
             theme.primary,
             Some(format!("1 inner {}", theme.outline)),
         ),
-        ButtonStyle::Text => (None, theme.primary, None),
+        (ButtonStyle::Outlined, true) => (
+            None,
+            theme.on_surface.with_alpha_f32(0.38),
+            Some(format!(
+                "1 inner {}",
+                theme.on_surface.with_alpha_f32(0.12).as_rgba()
+            )),
+        ),
+        (ButtonStyle::Text, false) => (None, theme.primary, None),
+        (ButtonStyle::Text, true) => (None, theme.on_surface.with_alpha_f32(0.38), None),
     };
 
-    let (background, color) = (background.map(|color| color.to_string()), color.to_string());
+    let (background, color) = (background.map(|color| color.as_rgba()), color.as_rgba());
 
     let padding = if style == ButtonStyle::Text { 12 } else { 24 };
 
@@ -54,7 +84,7 @@ pub fn Button(style: ButtonStyle, icon: Option<IconData>, children: Element) -> 
             background,
             color: color.as_str(),
             border,
-            shadow: if style == ButtonStyle::Elevated {
+            shadow: if style == ButtonStyle::Elevated && !disabled {
                 Some(Elevation::Level1.as_shadow())
             } else {
                 None
@@ -63,11 +93,15 @@ pub fn Button(style: ButtonStyle, icon: Option<IconData>, children: Element) -> 
 
             reference,
 
-            StateLayer {
-                color: color.as_str(),
-                width: "{size.area.size.width}",
-                height: "40",
-                position_left: "-{padding_left}"
+            onclick: move |data| on_click.call(data),
+
+            if !disabled {
+                StateLayer {
+                    color: color.as_str(),
+                    width: "{size.area.size.width}",
+                    height: "40",
+                    position_left: "-{padding_left}"
+                }
             }
 
             if let Some(icon) = icon {
@@ -85,7 +119,7 @@ pub fn Button(style: ButtonStyle, icon: Option<IconData>, children: Element) -> 
                 variant: TypescaleVariant::Label,
                 size: TypescaleSize::Large,
 
-                {children}
+                {label}
             }
         }
     }
