@@ -16,7 +16,7 @@ fn App() -> Element {
     let theme = use_material_theme();
     let theme = theme.read();
 
-    let mut current_value = use_signal(i32::default);
+    let mut current_value = use_signal(|| 9);
 
     rsx! {
         Surface {
@@ -34,11 +34,17 @@ fn App() -> Element {
                     cross_align: "center",
                     spacing: "8",
 
-                    RadioButton {
-                        selected: current_value() == i,
-                        on_click: move |()| {
-                            current_value.set(i);
-                        },
+                    if i == 8 || i == 9 {
+                        RadioButton {
+                            selected: current_value() == i,
+                            disabled: true,
+                            on_click: move |_| current_value.set(i),
+                        }
+                    } else {
+                        RadioButton {
+                            selected: current_value() == i,
+                            on_click: move |_| current_value.set(i),
+                        }
                     }
 
                     Typography {

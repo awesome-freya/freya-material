@@ -3,20 +3,26 @@ use freya::prelude::*;
 use freya_transition::use_transition;
 
 #[component]
-pub fn RadioButton(selected: bool, on_click: EventHandler<()>) -> Element {
+pub fn RadioButton(
+    selected: bool,
+    on_click: EventHandler<MouseEvent>,
+    #[props(default)] disabled: bool,
+) -> Element {
     let theme = use_material_theme();
     let theme = theme.read();
 
     let mut hovered = use_signal(bool::default);
 
-    let color = if selected {
+    let color = if disabled {
+        theme.on_surface.with_alpha_f32(0.38)
+    } else if selected {
         theme.primary
     } else if *hovered.read() {
         theme.on_surface
     } else {
         theme.on_surface_variant
     }
-    .to_string();
+    .as_rgba();
 
     let onpointerenter = move |_| hovered.set(true);
     let onpointerleave = move |_| hovered.set(false);
@@ -50,16 +56,18 @@ pub fn RadioButton(selected: bool, on_click: EventHandler<()>) -> Element {
 
             onpointerenter,
             onpointerleave,
-            onclick: move |_| {
-                on_click(())
+            onclick: move |data| if !disabled {
+                on_click.call(data);
             },
 
-            StateLayer {
-                color: color.as_str(),
-                width: "40",
-                height: "40",
-                position_left: "-10",
-                position_top: "-10",
+            if !disabled {
+                StateLayer {
+                    color: color.as_str(),
+                    width: "40",
+                    height: "40",
+                    position_left: "-10",
+                    position_top: "-10",
+                }
             }
 
             rect {
