@@ -51,6 +51,7 @@ impl<T: Clone> LaunchConfigExt for LaunchConfig<'_, T> {
 
 pub trait ArgbExt {
     fn as_rgba(&self) -> String;
+    fn with_alpha_f32(self, alpha: f32) -> Self;
 }
 
 impl ArgbExt for Argb {
@@ -59,6 +60,12 @@ impl ArgbExt for Argb {
             "rgb({}, {}, {}, {})",
             self.red, self.green, self.blue, self.alpha
         )
+    }
+
+    fn with_alpha_f32(mut self, alpha: f32) -> Self {
+        self.alpha = (255.0 * alpha) as u8;
+
+        self
     }
 }
 
