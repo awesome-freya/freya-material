@@ -63,7 +63,10 @@ pub fn IconButton(
         (IconButtonStyle::Outlined, _, true) => (
             None,
             theme.on_surface.with_alpha_f32(0.38),
-            Some(format!("1 inner {}", theme.on_surface.with_alpha_f32(0.38).as_rgba())),
+            Some(format!(
+                "1 inner {}",
+                theme.on_surface.with_alpha_f32(0.38).as_rgba()
+            )),
         ),
     };
 
