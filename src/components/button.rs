@@ -94,7 +94,7 @@ pub fn Button(
             reference,
 
             onclick: move |data| if !disabled {
-                on_click.call(data)
+                on_click.call(data);
             },
 
             if !disabled {
