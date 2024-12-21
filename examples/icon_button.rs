@@ -48,12 +48,24 @@ fn App() -> Element {
                             filled: true,
                             ..Default::default()
                         },
+                        on_click: |_| { },
+                    }
+
+                    IconButton {
+                        style,
+                        icon: IconData {
+                            name: "star",
+                            filled: true,
+                            ..Default::default()
+                        },
+                        on_click: |_| { },
+                        disabled: true
                     }
 
                     IconButton {
                         style,
                         selected: *selected.read(),
-                        on_click: move |()| {
+                        on_click: move |_| {
                             selected.toggle();
                         },
                         icon: IconData {
