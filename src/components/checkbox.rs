@@ -11,7 +11,7 @@ pub enum CheckboxState {
 }
 
 impl CheckboxState {
-    fn into_curve(self) -> Curve {
+    const fn into_curve(self) -> Curve {
         if self.into_bool() {
             Easing::EmphasizedAccelerate
         } else {
@@ -20,7 +20,7 @@ impl CheckboxState {
         .into_value()
     }
 
-    fn into_duration(self) -> u64 {
+    const fn into_duration(self) -> u64 {
         if self.into_bool() {
             150
         } else {
@@ -28,7 +28,7 @@ impl CheckboxState {
         }
     }
 
-    fn into_opacity(self) -> f32 {
+    const fn into_opacity(self) -> f32 {
         if self.into_bool() {
             1.0
         } else {
@@ -36,7 +36,7 @@ impl CheckboxState {
         }
     }
 
-    fn into_radius(self) -> f32 {
+    const fn into_radius(self) -> f32 {
         if self.into_bool() {
             18.0
         } else {
@@ -60,7 +60,7 @@ impl CheckboxState {
         }
     }
 
-    fn into_rotation(self) -> f32 {
+    const fn into_rotation(self) -> f32 {
         if matches!(self, Self::Intermediate) {
             0.0
         } else {
@@ -68,7 +68,7 @@ impl CheckboxState {
         }
     }
 
-    fn into_offset(self) -> Point2D {
+    const fn into_offset(self) -> Point2D {
         if matches!(self, Self::Intermediate) {
             Point2D::new(4.0, 8.0)
         } else {
@@ -76,7 +76,8 @@ impl CheckboxState {
         }
     }
 
-    pub fn from_bool(value: bool) -> Self {
+    #[must_use]
+    pub const fn from_bool(value: bool) -> Self {
         if value {
             Self::Checked
         } else {
@@ -84,7 +85,8 @@ impl CheckboxState {
         }
     }
 
-    pub fn into_bool(self) -> bool {
+    #[must_use]
+    pub const fn into_bool(self) -> bool {
         matches!(self, Self::Checked | Self::Intermediate)
     }
 }
