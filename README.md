@@ -34,7 +34,7 @@ It is currently in early stage of development.
   - [x] Radio Button
   - [ ] Divider
   - [ ] Chips
-  - [ ] Checkbox
+  - [x] Checkbox
   - [ ] Cards
   - [ ] Segmented Buttons
   - [x] Icon Buttons
