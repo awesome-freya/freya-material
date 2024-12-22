@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `component:Button`
   - `component:Checkbox`
   - `component:Icon`
+  - `component:NavigationRail`
   - `component:RadioButton`
   - `component:StateLayer`
   - `component:Typography`

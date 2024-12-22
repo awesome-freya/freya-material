@@ -26,7 +26,7 @@ It is currently in early stage of development.
   - [ ] Date Pickers
   - [ ] Carousel
   - [ ] Navigation Drawer
-  - [ ] Navigation Rail
+  - [x] Navigation Rail
   - [ ] Progress Indicators
   - [ ] Side sheets
   - [ ] Tooltips
