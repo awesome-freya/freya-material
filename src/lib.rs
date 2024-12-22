@@ -1,3 +1,11 @@
+#![warn(clippy::all, clippy::pedantic, clippy::nursery)]
+#![allow(
+    clippy::unreadable_literal,
+    clippy::derive_partial_eq_without_eq,
+    clippy::cast_sign_loss,
+    clippy::cast_possible_truncation
+)]
+
 mod components;
 pub mod material_design;
 
@@ -29,6 +37,7 @@ static ROBOTO_BLACK: &[u8] = include_bytes!("../assets/Roboto-Black.ttf");
 static ROBOTO_BLACK_ITALIC: &[u8] = include_bytes!("../assets/Roboto-BlackItalic.ttf");
 
 pub trait LaunchConfigExt {
+    #[must_use]
     fn with_roboto(self) -> Self;
 }
 
@@ -51,6 +60,7 @@ impl<T: Clone> LaunchConfigExt for LaunchConfig<'_, T> {
 
 pub trait ArgbExt {
     fn as_rgba(&self) -> String;
+    #[must_use]
     fn with_alpha_f32(self, alpha: f32) -> Self;
 }
 
@@ -69,18 +79,21 @@ impl ArgbExt for Argb {
     }
 }
 
+#[must_use]
 pub fn use_material_theme() -> Signal<Scheme> {
-    match try_use_context::<Signal<Scheme>>() {
-        Some(value) => value,
-        None => use_context_provider(|| {
-            Signal::new(
-                ThemeBuilder::with_source(Argb::from_u32(0xFFBC0D))
-                    .build()
-                    .schemes
-                    .dark,
-            )
-        }),
-    }
+    try_use_context::<Signal<Scheme>>().map_or_else(
+        || {
+            use_context_provider(|| {
+                Signal::new(
+                    ThemeBuilder::with_source(Argb::from_u32(0xFFBC0D))
+                        .build()
+                        .schemes
+                        .dark,
+                )
+            })
+        },
+        |value| value,
+    )
 }
 
 pub fn set_material_theme(scheme: Scheme) {

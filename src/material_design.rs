@@ -9,6 +9,7 @@ pub enum Elevation {
 }
 
 impl Elevation {
+    #[must_use]
     pub const fn as_value(&self) -> u8 {
         match self {
             Self::Level0 => 0,
@@ -20,11 +21,12 @@ impl Elevation {
         }
     }
 
+    #[must_use]
     pub const fn into_value(self) -> u8 {
         self.as_value()
     }
 
-    fn calc(&self) -> (i32, i32, &'static str, i32, i32, i32, &'static str) {
+    fn calc(self) -> (i32, i32, &'static str, i32, i32, i32, &'static str) {
         let level = i32::from(self.as_value());
 
         let (y1, blur1, color1) = {
@@ -64,12 +66,14 @@ impl Elevation {
     }
 
     // Code taken from https://github.com/material-components/material-web/blob/main/elevation/internal/_elevation.scss
+    #[must_use]
     pub fn as_shadow(&self) -> String {
         let (y1, blur1, color1, y2, blur2, spread, color2) = self.calc();
 
         format!("0 {y1} {blur1} 0 {color1}, 0 {y2} {blur2} {spread} {color2}")
     }
 
+    #[must_use]
     pub fn into_shadow(self) -> String {
         self.as_shadow()
     }
@@ -96,6 +100,7 @@ pub mod motion {
         const STANDARD_DECELERATE: Curve = Curve::cubic(0.0, 0.0, 0.0, 1.0);
         const STANDARD_ACCELERATE: Curve = Curve::cubic(0.3, 0.0, 1.0, 1.0);
 
+        #[must_use]
         pub const fn as_value(&self) -> Curve {
             match self {
                 Self::Emphasized => Self::EMPHASIZED,
@@ -107,6 +112,7 @@ pub mod motion {
             }
         }
 
+        #[must_use]
         pub const fn into_value(self) -> Curve {
             self.as_value()
         }
@@ -121,6 +127,7 @@ pub mod motion {
     }
 
     impl EasingDuration {
+        #[must_use]
         pub const fn as_value(&self) -> [u64; 4] {
             match self {
                 Self::Short => [50, 100, 150, 200],
@@ -130,6 +137,7 @@ pub mod motion {
             }
         }
 
+        #[must_use]
         pub const fn into_value(self) -> [u64; 4] {
             self.as_value()
         }
@@ -153,6 +161,7 @@ pub enum Shape {
 }
 
 impl Shape {
+    #[must_use]
     pub const fn as_value(&self) -> &'static str {
         match self {
             Self::None => "0",
@@ -170,6 +179,7 @@ impl Shape {
         }
     }
 
+    #[must_use]
     pub const fn into_value(self) -> &'static str {
         self.as_value()
     }
@@ -240,7 +250,7 @@ pub enum TypescaleSize {
 /// (Family, Weight, Size, Tracking (?), Line Height)
 pub type Typescale = (&'static str, usize, usize, f32, usize);
 
-pub(crate) fn get_type_scale(
+pub(crate) const fn get_type_scale(
     variant: TypescaleVariant,
     size: TypescaleSize,
     prominent: bool,

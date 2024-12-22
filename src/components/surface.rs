@@ -49,7 +49,7 @@ pub fn Surface(
             layer,
 
             onclick: move |data| if let Some(handler) = on_click {
-                handler(data)
+                handler(data);
             },
 
             {children}

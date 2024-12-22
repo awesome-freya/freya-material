@@ -23,25 +23,10 @@ pub fn Button(
 
     let (background, color, border) = match (style, disabled) {
         (ButtonStyle::Elevated, false) => (Some(theme.surface_container_low), theme.primary, None),
-        (ButtonStyle::Elevated, true) => (
-            Some(theme.on_surface.with_alpha_f32(0.12)),
-            theme.on_surface.with_alpha_f32(0.38),
-            None,
-        ),
         (ButtonStyle::Filled, false) => (Some(theme.primary), theme.on_primary, None),
-        (ButtonStyle::Filled, true) => (
-            Some(theme.on_surface.with_alpha_f32(0.12)),
-            theme.on_surface.with_alpha_f32(0.38),
-            None,
-        ),
         (ButtonStyle::FilledTonal, false) => (
             Some(theme.secondary_container),
             theme.on_secondary_container,
-            None,
-        ),
-        (ButtonStyle::FilledTonal, true) => (
-            Some(theme.on_surface.with_alpha_f32(0.12)),
-            theme.on_surface.with_alpha_f32(0.38),
             None,
         ),
         (ButtonStyle::Outlined, false) => (
@@ -59,6 +44,11 @@ pub fn Button(
         ),
         (ButtonStyle::Text, false) => (None, theme.primary, None),
         (ButtonStyle::Text, true) => (None, theme.on_surface.with_alpha_f32(0.38), None),
+        (ButtonStyle::Elevated | ButtonStyle::Filled | ButtonStyle::FilledTonal, true) => (
+            Some(theme.on_surface.with_alpha_f32(0.12)),
+            theme.on_surface.with_alpha_f32(0.38),
+            None,
+        ),
     };
 
     let (background, color) = (background.map(|color| color.as_rgba()), color.as_rgba());

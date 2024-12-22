@@ -32,11 +32,6 @@ pub fn IconButton(
         (IconButtonStyle::Filled, Some(false), false) => {
             (Some(theme.surface_container_highest), theme.primary, None)
         }
-        (IconButtonStyle::Filled, _, true) => (
-            Some(theme.on_surface.with_alpha_f32(0.12)),
-            theme.on_surface.with_alpha_f32(0.38),
-            None,
-        ),
         (IconButtonStyle::FilledTonal, None | Some(true), false) => (
             Some(theme.secondary_container),
             theme.on_secondary_container,
@@ -45,11 +40,6 @@ pub fn IconButton(
         (IconButtonStyle::FilledTonal, Some(false), false) => (
             Some(theme.surface_container_highest),
             theme.on_surface_variant,
-            None,
-        ),
-        (IconButtonStyle::FilledTonal, _, true) => (
-            Some(theme.on_surface.with_alpha_f32(0.12)),
-            theme.on_surface.with_alpha_f32(0.38),
             None,
         ),
         (IconButtonStyle::Outlined, None | Some(false), false) => (
@@ -67,6 +57,11 @@ pub fn IconButton(
                 "1 inner {}",
                 theme.on_surface.with_alpha_f32(0.38).as_rgba()
             )),
+        ),
+        (IconButtonStyle::Filled | IconButtonStyle::FilledTonal, _, true) => (
+            Some(theme.on_surface.with_alpha_f32(0.12)),
+            theme.on_surface.with_alpha_f32(0.38),
+            None,
         ),
     };
 

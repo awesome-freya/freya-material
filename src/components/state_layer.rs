@@ -18,16 +18,15 @@ pub enum State {
 }
 
 impl State {
-    fn is_press(&self) -> bool {
+    const fn is_press(self) -> bool {
         matches!(self, Self::Press)
     }
 
-    fn opacity(&self) -> f32 {
+    const fn opacity(self) -> f32 {
         match self {
-            State::Idle => 0.0,
-            State::Hover => 0.08,
-            State::Press => 0.1,
-            // State::Focus => 0.1,
+            Self::Idle => 0.0,
+            Self::Hover => 0.08,
+            Self::Press => 0.1,
         }
     }
 }
@@ -43,8 +42,8 @@ impl RipplePosition {
         Self {
             start: Point2D::new(cursor.x - radius / 2.0, cursor.y - radius / 2.0),
             end: Point2D::new(
-                (width - radius * scale) / 2.0,
-                (height - radius * scale) / 2.0,
+                radius.mul_add(-scale, width) / 2.0,
+                radius.mul_add(-scale, height) / 2.0,
             ),
         }
     }
@@ -152,7 +151,7 @@ pub fn StateLayer(
         rect {
             width: "{width}",
             height: "{height}",
-            corner_radius: shape.map(|shape| shape.into_value()),
+            corner_radius: shape.map(Shape::into_value),
             position: "absolute",
             position_left,
             position_top,

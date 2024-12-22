@@ -40,7 +40,7 @@ pub fn RadioButton(
 
     use_effect(use_reactive!(|selected| {
         if selected {
-            radius_transition.play([("radius", 8.0)])
+            radius_transition.play([("radius", 8.0)]);
         } else {
             radius_transition.play([("radius", 0.0)]);
         }
