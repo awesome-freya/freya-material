@@ -20,7 +20,7 @@ fn App() -> Element {
     let theme = theme.read();
 
     let mut selected = use_signal(bool::default);
-    let mut current_value = use_signal(i32::default);
+    let mut current_value = use_signal(|| 9);
 
     rsx! {
         Surface {
@@ -88,46 +88,99 @@ fn App() -> Element {
                         }
                     }
 
-                    for style in [
-                        IconButtonStyle::Standard,
-                        IconButtonStyle::Filled,
-                        IconButtonStyle::FilledTonal,
-                        IconButtonStyle::Outlined,
-                    ] {
-                        rect {
-                            direction: "horizontal",
-                            spacing: "8",
+                    Surface {
+                        direction: "horizontal",
+                        spacing: "24",
 
-                            IconButton {
-                                style,
-                                icon: IconData {
-                                    name: "star",
-                                    filled: true,
-                                    ..Default::default()
-                                },
-                                on_click: |_| { },
+                        Surface {
+                            direction: "vertical",
+                            spacing: "24",
+
+                            for style in [
+                                IconButtonStyle::Standard,
+                                IconButtonStyle::Filled,
+                                IconButtonStyle::FilledTonal,
+                                IconButtonStyle::Outlined,
+                            ] {
+                                rect {
+                                    direction: "horizontal",
+                                    spacing: "8",
+
+                                    IconButton {
+                                        style,
+                                        icon: IconData {
+                                            name: "star",
+                                            filled: true,
+                                            ..Default::default()
+                                        },
+                                        on_click: |_| { },
+                                    }
+
+                                    IconButton {
+                                        style,
+                                        icon: IconData {
+                                            name: "star",
+                                            filled: true,
+                                            ..Default::default()
+                                        },
+                                        on_click: |_| { },
+                                        disabled: true
+                                    }
+
+                                    IconButton {
+                                        style,
+                                        selected: *selected.read(),
+                                        on_click: move |_| selected.toggle(),
+                                        icon: IconData {
+                                            name: "star",
+                                            filled: true,
+                                            ..Default::default()
+                                        },
+                                    }
+                                }
+                            }
+                        }
+
+                        Surface {
+                            direction: "vertical",
+                            spacing: "24",
+
+                            Surface {
+                                direction: "horizontal",
+                                spacing: "8",
+
+                                for state in [CheckboxState::Unchecked, CheckboxState::Intermediate, CheckboxState::Checked] {
+                                    Checkbox {
+                                        state,
+                                        on_click: move |_| { },
+                                    }
+                                }
                             }
 
-                            IconButton {
-                                style,
-                                icon: IconData {
-                                    name: "star",
-                                    filled: true,
-                                    ..Default::default()
-                                },
-                                on_click: |_| { },
-                                disabled: true
+                            Surface {
+                                direction: "horizontal",
+                                spacing: "8",
+
+                                for state in [CheckboxState::Unchecked, CheckboxState::Intermediate, CheckboxState::Checked] {
+                                    Checkbox {
+                                        state,
+                                        on_click: move |_| { },
+                                        error: true,
+                                    }
+                                }
                             }
 
-                            IconButton {
-                                style,
-                                selected: *selected.read(),
-                                on_click: move |_| selected.toggle(),
-                                icon: IconData {
-                                    name: "star",
-                                    filled: true,
-                                    ..Default::default()
-                                },
+                            Surface {
+                                direction: "horizontal",
+                                spacing: "8",
+
+                                for state in [CheckboxState::Unchecked, CheckboxState::Intermediate, CheckboxState::Checked] {
+                                    Checkbox {
+                                        state,
+                                        on_click: move |_| { },
+                                        disabled: true,
+                                    }
+                                }
                             }
                         }
                     }
@@ -143,9 +196,17 @@ fn App() -> Element {
                             cross_align: "center",
                             spacing: "8",
 
-                            RadioButton {
-                                selected: current_value() == i,
-                                on_click: move |_| current_value.set(i),
+                            if i == 8 || i == 9 {
+                                RadioButton {
+                                    selected: current_value() == i,
+                                    disabled: true,
+                                    on_click: move |_| current_value.set(i),
+                                }
+                            } else {
+                                RadioButton {
+                                    selected: current_value() == i,
+                                    on_click: move |_| current_value.set(i),
+                                }
                             }
 
                             Typography {
