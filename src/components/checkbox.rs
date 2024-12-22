@@ -105,10 +105,22 @@ pub fn Checkbox(
         [false, false] => [theme.primary, theme.on_primary, theme.on_surface_variant],
         [true, false] => [theme.error, theme.on_error, theme.error],
         [_, true] => [
-            theme.on_surface.with_alpha_f32(0.12),
             theme.on_surface.with_alpha_f32(0.38),
-            theme.on_surface.with_alpha_f32(0.38),
+            theme.surface,
+            if state.into_bool() {
+                theme.on_surface.with_alpha_f32(0.0)
+            } else {
+                theme.on_surface.with_alpha_f32(0.38)
+            },
         ],
+    };
+
+    let state_layer_color = if error {
+        theme.error
+    } else if state.into_bool() {
+        theme.primary
+    } else {
+        theme.on_surface
     };
 
     let [background, color, border_color] = [
@@ -170,7 +182,7 @@ pub fn Checkbox(
         ],
         checkmark_transition.get::<Point2D>("offset"),
     );
- 
+
     use_effect(use_reactive!(|state| {
         match state {
             CheckboxState::Unchecked => {}
@@ -210,16 +222,6 @@ pub fn Checkbox(
                 on_click.call(data);
             },
 
-            if !disabled {
-                StateLayer {
-                    color: color.as_str(),
-                    width: "40",
-                    height: "40",
-                    position_left: "-11",
-                    position_top: "-11"
-                }
-            }
-
             rect {
                 height: "18",
                 width: "18",
@@ -255,6 +257,16 @@ pub fn Checkbox(
                         position_top: "{offset.y}",
                         background: color.as_str(),
                     }
+                }
+            }
+
+            if !disabled {
+                StateLayer {
+                    color: state_layer_color,
+                    width: "40",
+                    height: "40",
+                    position_left: "-11",
+                    position_top: "-11"
                 }
             }
         }
