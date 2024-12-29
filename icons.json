@@ -1,14 +1,16 @@
 [
-    "language",
-    "local_library",
+    "arrow_back",
+    "arrow_drop_up",
+    "arrow_drop_down",
+    "check",
+    "close",
+    "edit",
+    "menu",
+    "menu_open",
+    "search",
     "star",
     {
         "name": "star",
         "filled": true
-    },
-    "library_books",
-    "bookmark",
-    "edit",
-    "menu",
-    "menu_open"
+    }
 ]

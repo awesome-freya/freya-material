@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-freya = { git = "https://github.com/marc2332/freya.git" }
+freya = { git = "https://github.com/marc2332/freya.git", branch = "feat/scale-effect" }
 freya-transition = { git = "https://github.com/awesome-freya/freya-transition.git" }
 material-colors = "0.4.2"
 material-icons = { git = "https://github.com/Aiving/material-icons.git" }
