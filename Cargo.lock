@@ -1680,6 +1680,7 @@ dependencies = [
  "material-colors",
  "material-icons",
  "once_cell",
+ "skia-safe",
 ]
 
 [[package]]
