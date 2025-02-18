@@ -1,6 +1,6 @@
 use crate::prelude::*;
 use freya::prelude::*;
-use freya_transition::{use_transition, Curve};
+use freya_motion::{use_transition, Curve};
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum CheckboxState {

@@ -75,7 +75,12 @@ pub fn Button(
             color: color.as_str(),
             border,
             shadow: if style == ButtonStyle::Elevated && !disabled {
-                Some(Elevation::Level1.as_shadow())
+                Some(
+                    Elevation::Level1
+                        .as_shadows()
+                        .map(|value| format!("{} {} {} {} {}", value.x, value.y, value.blur, value.spread, value.fill))
+                        .join(", ")
+                )
             } else {
                 None
             },

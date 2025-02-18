@@ -1,3 +1,6 @@
+use freya::core::values::{Fill, Shadow, ShadowPosition};
+use skia_safe::Color;
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum Elevation {
     Level0,
@@ -26,39 +29,39 @@ impl Elevation {
         self.as_value()
     }
 
-    fn calc(self) -> (i32, i32, &'static str, i32, i32, i32, &'static str) {
-        let level = i32::from(self.as_value());
+    fn calc(self) -> (f32, f32, Color, f32, f32, f32, Color) {
+        let level = f32::from(self.as_value());
 
         let (y1, blur1, color1) = {
-            let level1_y = level.clamp(0, 1);
-            let level4_y = (level - 3).clamp(0, 1);
-            let level5_y = 2 * (level - 4).clamp(0, 1);
+            let level1_y = level.clamp(0.0, 1.0);
+            let level4_y = (level - 3.0).clamp(0.0, 1.0);
+            let level5_y = 2.0 * (level - 4.0).clamp(0.0, 1.0);
 
-            let level1_blur = 2 * level.clamp(0, 1);
-            let level3_blur = (level - 2).clamp(0, 1);
-            let level5_blur = (level - 4).clamp(0, 1);
+            let level1_blur = 2.0 * level.clamp(0.0, 1.0);
+            let level3_blur = (level - 2.0).clamp(0.0, 1.0);
+            let level5_blur = (level - 4.0).clamp(0.0, 1.0);
 
             (
                 level1_y + level4_y + level5_y,
                 level1_blur + level3_blur + level5_blur,
-                "rgb(0, 0, 0, 0.3)",
+                Color::from_argb(77, 0, 0, 0),
             )
         };
 
         let (y2, blur2, spread, color2) = {
-            let level1_y = level.clamp(0, 1);
-            let level2_y = (level - 1).clamp(0, 1);
-            let level3to5_y = 2 * (level - 2).clamp(0, 3);
-            let level1to2_blur = 3 * level.clamp(0, 2);
-            let level3to5_blur = 2 * (level - 2).clamp(0, 3);
-            let level1to4_spread = level.clamp(0, 4);
-            let level5_spread = 2 * (level - 4).clamp(0, 1);
+            let level1_y = level.clamp(0.0, 1.0);
+            let level2_y = (level - 1.0).clamp(0.0, 1.0);
+            let level3to5_y = 2.0 * (level - 2.0).clamp(0.0, 3.0);
+            let level1to2_blur = 3.0 * level.clamp(0.0, 2.0);
+            let level3to5_blur = 2.0 * (level - 2.0).clamp(0.0, 3.0);
+            let level1to4_spread = level.clamp(0.0, 4.0);
+            let level5_spread = 2.0 * (level - 4.0).clamp(0.0, 1.0);
 
             (
                 level1_y + level2_y + level3to5_y,
                 level1to2_blur + level3to5_blur,
                 level1to4_spread + level5_spread,
-                "rgb(0, 0, 0, 0.15)",
+                Color::from_argb(38, 0, 0, 0),
             )
         };
 
@@ -67,20 +70,37 @@ impl Elevation {
 
     // Code taken from https://github.com/material-components/material-web/blob/main/elevation/internal/_elevation.scss
     #[must_use]
-    pub fn as_shadow(&self) -> String {
+    pub fn as_shadows(&self) -> [Shadow; 2] {
         let (y1, blur1, color1, y2, blur2, spread, color2) = self.calc();
 
-        format!("0 {y1} {blur1} 0 {color1}, 0 {y2} {blur2} {spread} {color2}")
+        [
+            Shadow {
+                position: ShadowPosition::Normal,
+                x: 0.0,
+                y: y1,
+                blur: blur1,
+                spread,
+                fill: Fill::Color(color1),
+            },
+            Shadow {
+                position: ShadowPosition::Normal,
+                x: 0.0,
+                y: y2,
+                blur: blur2,
+                spread,
+                fill: Fill::Color(color2),
+            },
+        ]
     }
 
     #[must_use]
-    pub fn into_shadow(self) -> String {
-        self.as_shadow()
+    pub fn into_shadows(self) -> [Shadow; 2] {
+        self.as_shadows()
     }
 }
 
 pub mod motion {
-    use freya_transition::Curve;
+    use freya_motion::Curve;
 
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub enum Easing {

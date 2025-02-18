@@ -1,6 +1,6 @@
 use crate::prelude::*;
 use freya::prelude::*;
-use freya_transition::use_transition;
+use freya_motion::use_transition;
 
 #[component]
 pub fn RadioButton(

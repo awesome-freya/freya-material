@@ -1,6 +1,6 @@
 use crate::prelude::*;
 use freya::prelude::*;
-use freya_transition::{use_transition, Curve};
+use freya_motion::{use_transition, Curve};
 
 const INITIAL_ORIGIN_SCALE: f32 = 0.2;
 const PADDING: f32 = 10.0;

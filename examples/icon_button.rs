@@ -1,6 +1,6 @@
 use freya::prelude::{
     component, dioxus_core, dioxus_elements, fc_to_builder, launch_cfg, rsx, use_signal, Element,
-    IntoDynNode, LaunchConfig, Readable, Writable,
+    GlobalSignal, IntoDynNode, LaunchConfig, Readable, Writable,
 };
 use freya_material::prelude::*;
 

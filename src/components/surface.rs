@@ -26,7 +26,17 @@ pub fn Surface(
     children: Element,
 ) -> Element {
     let corner_radius = shape.map(Shape::into_value);
-    let shadow = elevation.map(Elevation::into_shadow);
+    let shadow = elevation.map(|elevation| {
+        elevation
+            .into_shadows()
+            .map(|value| {
+                format!(
+                    "{} {} {} {} {}",
+                    value.x, value.y, value.blur, value.spread, value.fill
+                )
+            })
+            .join(", ")
+    });
 
     rsx! {
         rect {

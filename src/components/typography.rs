@@ -12,13 +12,15 @@ pub fn Typography(
     max_lines: Option<String>,
     children: Element,
 ) -> Element {
-    let (font_family, weight, size, _, line_height) = get_type_scale(variant, size, prominent);
+    let (font_family, weight, size, tracking, line_height) =
+        get_type_scale(variant, size, prominent);
 
     rsx! {
         label {
             font_family,
             font_weight: "{weight}",
             font_size: "{size}",
+            letter_spacing: "{tracking}",
             line_height: "{line_height / size}",
             color,
             text_align,
